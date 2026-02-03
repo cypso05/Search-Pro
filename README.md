@@ -4,7 +4,7 @@ A full-featured, production-ready job search engine built with Flask, PostgreSQL
 
 ## 🌐 Live Deployment
 
-**Your application is live and accessible at:** https://devcyp.pythonanywhere.com
+** Application is live and accessible at:** https://devcyp.pythonanywhere.com
 
 - **Job Search Mode:** https://devcyp.pythonanywhere.com/job-search
 - **General Search Mode:** https://devcyp.pythonanywhere.com/general-search
