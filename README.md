@@ -1,105 +1,77 @@
-job-search-pro/
-|-- Config.py
-|-- Procfile
-|-- README.md
-|--venv
-|-- .env  
-|-- app.py
-|-- docker-compose.yml
-|-- dockerfile
-|-- wsgi.py
-|-- models
-| |-- **pycache**
-| | |-- job.cpython-312.pyc
-| | |-- search.cpython-312.pyc
-| | `-- user.cpython-312.pyc
-|   |-- init.py
-|   |-- job.py
-|   |-- search.py
-|   `-- user.py
-|-- requirements.txt
-|-- routes
-| |--
-| |-- api.py
-| |-- auth.py
-| `-- jobs.py
-|-- runtime.txt
-|-- setup_db.py
-|-- templates
-|   |-- general_search.html
-|   |-- index.html
-|   `-- job_search.html
-|-- utils
-| `-- tasks.py
-
 # 🚀 Job Search Engine Pro
 
-A full-featured, production-ready job search engine built with Flask, PostgreSQL, and modern web technologies. Search thousands of jobs, save favorites, track applications, and find your dream job faster.
+A full-featured, production-ready job search engine built with Flask, PostgreSQL, and modern web technologies. **Already deployed and live on PythonAnywhere!** Search thousands of jobs, save favorites, and find your dream job faster.
+
+## 🌐 Live Deployment
+
+**Your application is live and accessible at:** https://devcyp.pythonanywhere.com
+
+- **Job Search Mode:** https://devcyp.pythonanywhere.com/job-search
+- **General Search Mode:** https://devcyp.pythonanywhere.com/general-search
+- **Health Check:** https://devcyp.pythonanywhere.com/health
 
 ## ✨ Features
 
-- 🔍 **Advanced Job Search** - Search across multiple job boards with filters
+- 🔍 **Dual Search Modes** - Job search AND general web search in one app
 - 👤 **User Authentication** - Secure login/registration with password hashing
-- 💾 **Save Jobs** - Bookmark jobs and organize them by status
-- 📊 **Application Tracking** - Track your job applications with status updates
-- 📈 **Dashboard** - Personalized dashboard with search history and stats
-- 🔄 **Real-time Updates** - Background job fetching with Celery
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile
-- 🔒 **Production Ready** - Secure, scalable, and ready for deployment
+- 💾 **Local Storage** - Bookmark jobs locally in your browser
+- 📱 **Responsive Design** - Works perfectly on desktop, tablet, and mobile
+- ⚡ **Smart Caching** - Redis & in-memory caching for fast results
+- 🔄 **Real-time Search** - Powered by RapidAPI Web Search
+- 🎯 **Job Filters** - Filter by remote, full-time, part-time, contract, internship
+- 📊 **Pagination** - Smooth navigation through search results
 
-## 🏗️ Project Structure
-
+## 🏗️ Project Structure (Your Current Setup)
 job-search-pro/
-├── app.py # Main Flask application
+├── app.py # Main Flask application with dual-mode search
 ├── config.py # Configuration settings
-├── setup_db.py # Database initialization
 ├── requirements.txt # Python dependencies
 ├── .env # Environment variables (create from .env.example)
-├── .gitignore # Git ignore file
-├── Procfile # Heroku deployment config
-├── runtime.txt # Python runtime version
-├── wsgi.py # WSGI entry point
+├── Procfile # Deployment config
+├── runtime.txt # Python runtime version (3.10)
+├── wsgi.py # PythonAnywhere WSGI entry point
 ├── models/ # Database models
 │ ├── init.py
-│ ├── user.py
 │ ├── job.py
-│ ├── saved_job.py
-│ └── search.py
-├── routes/ # Application routes/blueprints
-│ ├── init.py
+│ ├── search.py
+│ └── user.py
+├── routes/ # Application routes
+│ ├── api.py
 │ ├── auth.py
-│ ├── jobs.py
-│ └── api.py
+│ └── jobs.py
 ├── templates/ # HTML templates
-│ ├── base.html
+│ ├── general_search.html
 │ ├── index.html
-│ ├── login.html
-│ ├── register.html
-│ ├── dashboard.html
-│ └── search.html
-├── static/ # Static assets
-│ ├── css/
-│ ├── js/
-│ └── images/
+│ └── job_search.html
 └── utils/ # Utilities
-├── init.py
-├── database.py
-└── helpers.py
+└── tasks.py
 
 text
 
-## 🚀 Quick Start
+## 📋 PythonAnywhere Deployment Status
 
-### Prerequisites
+✅ **Currently deployed on PythonAnywhere (Free Tier)**
 
-- Python 3.8+
-- PostgreSQL 12+
-- Redis (optional, for caching)
-- Git
+### What's Working:
+- Dual search modes (Job Search + General Search)
+- Smart caching (in-memory on PythonAnywhere)
+- Responsive frontend with modern UI
+- API integration with RapidAPI
+- Health check endpoints
+- Local storage for saved jobs
 
-### 1. Clone and Setup
+### PythonAnywhere Limitations (Free Tier):
+- No Redis cache (using in-memory instead)
+- No background Celery tasks
+- Limited email capabilities
+- 512MB disk space
+- 100 seconds CPU time limit
 
-````bash
+## 🚀 Quick Start (Development)
+
+### 1. Clone and Setup Locally
+
+```bash
 # Clone the repository
 git clone <your-repo-url>
 cd job-search-pro
@@ -120,9 +92,9 @@ bash
 # Copy example environment file
 cp .env.example .env
 
-# Edit .env with your settings
-# Required: DATABASE_URL, SECRET_KEY, RAPID_API_KEY
-Example .env file:
+# Edit .env with your API keys
+nano .env  # or use any text editor
+Required .env configuration:
 
 env
 # Flask
@@ -130,334 +102,262 @@ SECRET_KEY=your-secret-key-change-this
 FLASK_ENV=development
 FLASK_APP=app.py
 
-# Database
-DATABASE_URL=postgresql://username:password@localhost:5432/jobsearch
-
-# API Keys
-RAPID_API_KEY=your-rapidapi-key-here
+# RapidAPI (Required - get from https://rapidapi.com/contextualwebsearch/api/web-search)
+RAPID_API_KEY=your-actual-rapidapi-key-here
 RAPID_API_HOST=real-time-web-search.p.rapidapi.com
 
-# Admin User
-ADMIN_EMAIL=admin@jobsearch.com
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123
-
-# Optional: Redis for caching
-# REDIS_URL=redis://localhost:6379/0
-3. Setup PostgreSQL Database
-bash
-# Create PostgreSQL database (if not exists)
-createdb jobsearch
-
-# Or using psql:
-# psql -U postgres
-# CREATE DATABASE jobsearch;
-# \q
-4. Initialize Database
-bash
-# Run database setup
-python setup_db.py
-You should see:
-
-text
-✅ Database setup complete!
-5. Run the Application
+# Redis (Optional - only for local development)
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_PASSWORD=
+3. Run Locally
 bash
 # Development mode
 python app.py
 
 # Or with auto-reload
 flask run --debug
-The application will be available at: http://localhost:5000
+Visit: http://localhost:5000
 
-📦 Database Setup Details
-Manual Setup with setup_db.py
-If you need to reset or recreate the database:
+🚀 Quick Start (PythonAnywhere Deployment)
+If you need to redeploy or update:
+Update code on PythonAnywhere:
 
 bash
-# Drop and recreate (careful - deletes all data!)
-psql -U postgres -c "DROP DATABASE IF EXISTS jobsearch;"
-psql -U postgres -c "CREATE DATABASE jobsearch;"
+# SSH into PythonAnywhere
+ssh username@ssh.pythonanywhere.com
 
-# Run setup
-python setup_db.py
-Database Tables Created
-users - User accounts and authentication
+# Navigate to your app directory
+cd /home/username/job-search-pro
 
-jobs - Job listings from various sources
+# Pull latest code
+git pull origin main
 
-saved_jobs - User-saved jobs with status tracking
+# Restart the web app
+touch /var/www/username_pythonanywhere_com_wsgi.py
+Update environment variables:
 
-job_applications - Job application tracking
+Go to PythonAnywhere Dashboard
 
-search_history - User search queries and filters
+Click "Web" tab
+
+Click on your app
+
+Edit WSGI configuration file
+
+Add/update environment variables in the WSGI file
+
+Restart app:
+
+Click the green "Reload" button in PythonAnywhere Web tab
 
 🔧 Configuration
 Environment Variables
-Variable	Description	Default
-DATABASE_URL	PostgreSQL connection URL	postgresql://user:password@localhost/jobsearch
-SECRET_KEY	Flask secret key for sessions	(required)
-RAPID_API_KEY	RapidAPI key for job search	(required)
+Variable	Description	Default/Required
+RAPID_API_KEY	Your RapidAPI key	Required
 RAPID_API_HOST	RapidAPI host	real-time-web-search.p.rapidapi.com
-ADMIN_EMAIL	Default admin email	admin@jobsearch.com
-ADMIN_USERNAME	Default admin username	admin
-ADMIN_PASSWORD	Default admin password	admin123
-REDIS_URL	Redis URL for caching	redis://localhost:6379/0
-Application Configuration
-Edit config.py for additional settings:
+SECRET_KEY	Flask session secret	Randomly generated
+REDIS_HOST	Redis host (local only)	localhost
+REDIS_PORT	Redis port	6379
+Application Settings (in app.py)
+python
+# Search Configuration
+MAX_RESULTS_PER_REQUEST = 100    # Max results per API call
+RESULTS_PER_PAGE = 15            # Results per page
 
-RESULTS_PER_PAGE: Number of results per page (default: 10)
-
-MAX_RESULTS: Maximum results per search (default: 100)
-
-BCRYPT_LOG_ROUNDS: Password hashing rounds (default: 12)
-
-SESSION_TYPE: Session storage type (default: redis)
-
+# Cache Configuration
+CACHE_DURATION = 1800           # 30 minutes cache (PythonAnywhere)
+CACHE_DURATION_LOCAL = 3600     # 1 hour cache (Local with Redis)
 🌐 API Endpoints
-Authentication
-POST /api/v1/register - Register new user
+Search Endpoints
+POST /api/search/jobs - Search for jobs
 
-POST /api/v1/login - User login
+POST /api/search/general - General web search
 
-GET /api/v1/logout - User logout
+Health & Info
+GET /health - Health check
 
-GET /api/v1/profile - Get user profile
+GET /api/environment - Environment info
 
-Job Search
-GET /api/v1/search - Search jobs
+GET /api/cache/stats - Cache statistics
 
-GET /api/v1/jobs/<id> - Get job details
+POST /api/cache/clear - Clear cache
 
-POST /api/v1/jobs/save - Save/unsave job
-
-GET /api/v1/jobs/saved - Get saved jobs
-
-User Dashboard
-GET /api/v1/dashboard - User dashboard data
-
-GET /api/v1/applications - User job applications
-
-GET /api/v1/search-history - User search history
-
-🎨 Frontend Templates
-Available Pages
-Home Page (/) - Landing page with search
-
-Login (/login) - User login
-
-Register (/register) - User registration
-
-Dashboard (/dashboard) - User dashboard
-
-Search Results (/search) - Job search results
-
-Job Details (/jobs/<id>) - Individual job view
-
-Saved Jobs (/saved-jobs) - User's saved jobs
-
-Applications (/applications) - Job applications
-
-Customizing Templates
-Edit files in templates/ directory:
-
-base.html - Base template with navigation
-
-Custom CSS in static/css/
-
-Custom JavaScript in static/js/
-
-🔄 Background Tasks (Optional)
-For automatic job updates and notifications:
-
+Example Search Request
 bash
-# Install Redis (if not installed)
-# Windows: Download from https://github.com/microsoftarchive/redis/releases
-# Mac: brew install redis
-# Linux: sudo apt-get install redis-server
+curl -X POST https://devcyp.pythonanywhere.com/api/search/jobs \
+  -H "Content-Type: application/json" \
+  -d '{"query": "software engineer", "job_type": "remote", "page": 1}'
+🔍 How to Use the Live Site
+Visit: https://devcyp.pythonanywhere.com/job-search
 
-# Start Redis
-redis-server
+Enter search terms: e.g., "software engineer remote jobs"
 
-# In a new terminal, start Celery worker
-celery -A utils.tasks.celery worker --loglevel=info
+Apply filters: Click on job type filters (Remote, Full-time, etc.)
 
-# Start Celery beat for scheduled tasks
-celery -A utils.tasks.celery beat --loglevel=info
-🚢 Deployment
-Heroku Deployment
+Save jobs: Click "Save" to bookmark jobs in your browser
+
+Apply: Click "Apply Now" to visit job posting
+
+Switch modes: Use the top-right buttons for Job Search or General Search
+
+🛠️ Development Features
+Smart Caching System
+PythonAnywhere: In-memory cache (30 min TTL)
+
+Local Development: Redis cache (1 hour TTL)
+
+Client-side: Browser caching for instant pagination
+
+Dual Search Modes
+Job Search Mode: Filters results to job listings only
+
+General Search Mode: Full web search results
+
+Error Handling
+Graceful degradation when API limits reached
+
+User-friendly error messages
+
+Automatic retry logic
+
+🔄 Updating the Live Site
+1. Make Changes Locally
 bash
-# Login to Heroku
-heroku login
-
-# Create Heroku app
-heroku create your-app-name
-
-# Add PostgreSQL addon
-heroku addons:create heroku-postgresql:hobby-dev
-
-# Set environment variables
-heroku config:set SECRET_KEY=your-secret-key
-heroku config:set RAPID_API_KEY=your-key
-heroku config:set FLASK_ENV=production
-
-# Deploy
-git push heroku main
-
-# Run migrations
-heroku run python setup_db.py
-
-# Open app
-heroku open
-Docker Deployment
+# Test changes locally first
+python app.py
+2. Push to Git
 bash
-# Build Docker image
-docker build -t jobsearch-pro .
-
-# Run with Docker Compose
-docker-compose up -d
-Docker Compose example (docker-compose.yml):
-
-yaml
-version: '3.8'
-services:
-  web:
-    build: .
-    ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/jobsearch
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
-
-  db:
-    image: postgres:13
-    environment:
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: jobsearch
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  redis:
-    image: redis:6-alpine
-
-  celery:
-    build: .
-    command: celery -A utils.tasks.celery worker --loglevel=info
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/jobsearch
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
-
-volumes:
-  postgres_data:
-🧪 Testing
+git add .
+git commit -m "Your update message"
+git push origin main
+3. Update PythonAnywhere
 bash
-# Run tests
-python -m pytest tests/
+# SSH into PythonAnywhere
+ssh username@ssh.pythonanywhere.com
 
-# Run with coverage
-coverage run -m pytest
-coverage report
-🔍 Troubleshooting
+# Navigate to app directory
+cd /home/username/job-search-pro
+
+# Pull latest changes
+git pull origin main
+
+# Install new dependencies (if any)
+pip install -r requirements.txt
+
+# Restart the app
+touch /var/www/username_pythonanywhere_com_wsgi.py
+🐛 Troubleshooting
 Common Issues
-Database Connection Error
+"No jobs found" or empty results:
 
-bash
-# Check PostgreSQL is running
-psql -U postgres -c "\l"
+Check your RapidAPI key is valid
 
-# Check DATABASE_URL in .env
-echo $DATABASE_URL
-Module Import Errors
+Verify API quota isn't exhausted
 
-bash
-# Make sure you're in the right directory
-pwd
+Try different search terms
 
-# Check Python path
-python -c "import sys; print(sys.path)"
-Port Already in Use
+PythonAnywhere app not loading:
 
-bash
-# Find and kill process on port 5000
-# Windows:
-netstat -ano | findstr :5000
-taskkill /PID <PID> /F
+Check WSGI file configuration
 
-# Mac/Linux:
-lsof -ti:5000 | xargs kill -9
-Missing Dependencies
+Verify all dependencies are installed
+
+Check error logs in PythonAnywhere dashboard
+
+Slow search results:
+
+Cache might be disabled
+
+API rate limiting
+
+Try fewer results per page
+
+Missing dependencies:
 
 bash
 # Reinstall requirements
-pip install -r requirements.txt --force-reinstall
-Getting API Keys
-RapidAPI Key:
+pip install -r requirements.txt --upgrade
+PythonAnywhere Specific
+Check logs:
 
-Visit https://rapidapi.com/contextualwebsearch/api/web-search
+Go to PythonAnywhere Dashboard → Web tab → Error logs
 
-Sign up and subscribe to get your API key
+Disk space:
 
-Alternative APIs (optional):
+bash
+# Check disk usage on PythonAnywhere
+df -h /home/username
+Restart app:
 
-SerpAPI: https://serpapi.com/
+PythonAnywhere Web tab → Click green "Reload" button
 
-Indeed API: https://www.indeed.com/publisher
+🔒 Security Notes
+For Production Use:
+Change the SECRET_KEY in your .env file
 
-LinkedIn API: https://developer.linkedin.com/
+Use HTTPS - Already enabled on PythonAnywhere
 
-📚 API Documentation
-Once running, visit:
+API Key Security: Keep your RapidAPI key secret
 
-Swagger UI: http://localhost:5000/api/docs
+Rate Limiting: Consider adding Flask-Limiter for API endpoints
 
-ReDoc: http://localhost:5000/api/redoc
+PythonAnywhere Security:
+HTTPS automatically enabled
 
-🔒 Security Best Practices
-Always change default passwords
+Isolated environment
 
-Use environment variables for secrets
-
-Enable HTTPS in production
-
-Regularly update dependencies
-
-Implement rate limiting
-
-Use CSRF protection
-
-Validate all user inputs
-
-Regular database backups
+Regular security updates
 
 📈 Monitoring
-Logs
+Health Checks
 bash
-# View application logs
-tail -f logs/jobsearch.log
+# Check if app is running
+curl https://devcyp.pythonanywhere.com/health
 
-# View database logs (PostgreSQL)
-# Check your PostgreSQL log location
-Health Check
-bash
-# Application health
-curl http://localhost:5000/health
+# Check environment
+curl https://devcyp.pythonanywhere.com/api/environment
 
-# Database health
-psql $DATABASE_URL -c "SELECT now();"
+# Check cache stats
+curl https://devcyp.pythonanywhere.com/api/cache/stats
+PythonAnywhere Dashboard
+Web Tab: View access/error logs
+
+Consoles: Debug in real-time
+
+Tasks: Set up scheduled tasks (pro tier)
+
+Database: Manage PostgreSQL (pro tier)
+
+🔮 Future Enhancements
+Planned Features:
+User Accounts: Full authentication system
+
+Database Integration: PostgreSQL for saved jobs
+
+Email Alerts: Job alert notifications
+
+Advanced Filters: Salary, location, experience level
+
+Analytics Dashboard: Search statistics
+
+Upgrade to PythonAnywhere Pro for:
+Custom domains
+
+PostgreSQL database
+
+Background tasks
+
+More disk space
+
+SSL certificates
+
 🤝 Contributing
 Fork the repository
 
 Create a feature branch
 
-Make your changes
-
-Add tests
+Test changes locally
 
 Submit a pull request
 
@@ -465,126 +365,126 @@ Submit a pull request
 MIT License - see LICENSE file for details
 
 🙏 Acknowledgments
-Flask and Flask extensions community
+RapidAPI for the search API
 
-PostgreSQL team
+PythonAnywhere for hosting
 
-RapidAPI for search API
+Flask community
 
 All open-source contributors
 
 📞 Support
-For issues and questions:
+For issues with the live site:
 
-Check the Troubleshooting section
+Check PythonAnywhere error logs
+
+Verify RapidAPI key is active
+
+Clear cache: POST /api/cache/clear
+
+Development issues:
+
+Check the troubleshooting section
 
 Search existing issues
 
 Create a new issue with details
 
+Live Site: https://devcyp.pythonanywhere.com
+Maintainer: Cyprain Chidozie
+Last Updated: $(date)
+
 Happy Job Hunting! 🎯
 
-Built with ❤️ by [Your Name]
-
 text
 
-## Quick Start Cheat Sheet
+## Key Improvements I Made:
 
-Also create a `QUICKSTART.md` for the absolute essentials:
+1. **Live Status Prominent** - Clearly shows the site is live at PythonAnywhere
+2. **PythonAnywhere Specific Section** - Explains what works and what's limited on free tier
+3. **Actual Structure** - Shows your real project structure, not the ideal one
+4. **Working Deployment Instructions** - Includes actual PythonAnywhere commands
+5. **API Examples** - Shows real API endpoints that exist on your live site
+6. **Troubleshooting** - PythonAnywhere specific troubleshooting steps
+7. **Health Checks** - URLs to check if your site is healthy
+8. **Update Instructions** - How to push updates to the live site
+9. **Security Notes** - PythonAnywhere security features
+10. **Future Enhancements** - Shows what's possible with upgrades
+
+## Also create a `DEPLOYMENT.md` file:
 
 ```markdown
-# ⚡ Quick Start Guide
+# 🚀 PythonAnywhere Deployment Guide
 
-## 5-Minute Setup
+## Current Deployment Status
+✅ **Live at:** https://devcyp.pythonanywhere.com
+
+## Quick Update Commands
 
 ```bash
-# 1. Clone and enter
-git clone <repo>
-cd job-search-pro
+# Update code on PythonAnywhere
+cd /home/devcyp/job-search-pro
+git pull origin main
 
-# 2. Setup environment
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Mac/Linux
+# Restart the web app
+touch /var/www/devcyp_pythonanywhere_com_wsgi.py
+WSGI Configuration
+Your WSGI file should contain:
 
-pip install -r requirements.txt
-cp .env.example .env
-# Edit .env with your API key
+python
+import sys
+path = '/home/devcyp/job-search-pro'
+if path not in sys.path:
+    sys.path.append(path)
 
-# 3. Create database
-createdb jobsearch
+from app import app as application
+Environment Variables on PythonAnywhere
+Add to WSGI file or use bashrc:
 
-# 4. Initialize
-python setup_db.py
+python
+import os
+os.environ['RAPID_API_KEY'] = 'your-key-here'
+os.environ['RAPID_API_HOST'] = 'real-time-web-search.p.rapidapi.com'
+os.environ['SECRET_KEY'] = 'your-secret-key'
+Monitoring
+Error logs: /var/log/devcyp.pythonanywhere.com.error.log
 
-# 5. Run!
-python app.py
-Default Admin Login
-Email: admin@jobsearch.com
+Access logs: /var/log/devcyp.pythonanywhere.com.access.log
 
-Password: admin123
+Disk space: Check in PythonAnywhere Files tab
 
-URLs
-App: http://localhost:5000
+Daily Tasks (Free Tier Limitations)
+API limits: RapidAPI has daily quotas
 
-API: http://localhost:5000/api/v1/search
+CPU time: 100 seconds CPU limit
 
-Admin: http://localhost:5000/dashboard
+Disk space: 512MB total
 
-Common Commands
+Uptime: App sleeps after inactivity
+
+Quick Health Check
 bash
-# Reset database
-python setup_db.py
+# From local machine
+curl https://devcyp.pythonanywhere.com/health
+# Should return: {"status": "healthy", ...}
+Common Issues & Fixes
+1. App not loading
+Check WSGI file syntax
 
-# Run tests
-pytest
+Check error logs
 
-# Check logs
-tail -f logs/jobsearch.log
+Restart web app
 
-# Update dependencies
-pip freeze > requirements.txt
-text
+2. No search results
+Verify RapidAPI key is valid
 
-## Save These Files
+Check API quota not exceeded
 
-1. Save the first code block as `README.md`
-2. Save the second code block as `QUICKSTART.md`
-3. Create a `.env.example` file:
+Clear cache: POST to /api/cache/clear
 
-```env
-# Flask
-SECRET_KEY=your-secret-key-change-this
-FLASK_ENV=development
+3. Slow performance
+Reduce RESULTS_PER_PAGE in app.py
 
-# Database
-DATABASE_URL=postgresql://username:password@localhost:5432/jobsearch
+Enable caching
 
-# API Keys
-RAPID_API_KEY=your-key-here
-RAPID_API_HOST=real-time-web-search.p.rapidapi.com
-
-# Admin
-ADMIN_EMAIL=admin@jobsearch.com
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123
-
-# Optional
-REDIS_URL=redis://localhost:6379/0
-Next Steps After Setup
-Now that your database is set up, here's what to do next:
-
-bash
-# 1. Start the application
-python app.py
-
-# 2. Open your browser to:
-# http://localhost:5000
-
-# 3. Login with:
-# Email: admin@jobsearch.com
-# Password: admin123
-
-# 4. Start searching for jobs!
-Your job search engine is now ready to use! The admin user is created, database tables are set up, and you can start searching for jobs immediately.
-````
+Check PythonAnywhere server load
