@@ -1,0 +1,25 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Databases
+*.db
+*.sqlite3
+
+# Logs & temp files
+*.log
+tmp/
+celerybeat-schedule
+
+# Framework / app data
+instance/
+uploads/
+
+# OS / editor files
+.DS_Store
+.idea/
+.vscode/

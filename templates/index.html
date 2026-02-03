@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dual Search Engine - Choose Your Search Mode</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .mode-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .mode-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-10px);
+            border-color: #4f46e5;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .mode-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #4f46e5;
+        }
+        
+        .mode-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .mode-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .mode-features {
+            text-align: left;
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+        
+        .mode-features li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        
+        .mode-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #4f46e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .mode-btn:hover {
+            background: #4338ca;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .mode-selection {
+                grid-template-columns: 1fr;
+            }
+            
+            .mode-card {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Dual Search Engine</h1>
+            <p>Choose your search mode based on what you're looking for</p>
+        </div>
+        
+        <div class="mode-selection">
+            <!-- Job Search Mode -->
+            <div class="mode-card" onclick="window.location.href='/job-search'">
+                <div class="mode-icon">
+                    👔
+                </div>
+                <h2 class="mode-title">Job Search Mode</h2>
+                <p class="mode-description">
+                    Find your dream job with specialized job search filters and job-focused results.
+                </p>
+                <ul class="mode-features">
+                    <li>✓ Job-specific filtering (remote, full-time, etc.)</li>
+                    <li>✓ Focused on job sites (LinkedIn, Indeed, etc.)</li>
+                    <li>✓ Career-focused results</li>
+                    <li>✓ Apply directly to jobs</li>
+                </ul>
+                <a href="/job-search" class="mode-btn">Start Job Search</a>
+            </div>
+            
+            <!-- General Search Mode -->
+            <div class="mode-card" onclick="window.location.href='/general-search'">
+                <div class="mode-icon">
+                    🌐
+                </div>
+                <h2 class="mode-title">General Search Mode</h2>
+                <p class="mode-description">
+                    Search the entire web for information, websites, articles, and more.
+                </p>
+                <ul class="mode-features">
+                    <li>✓ Search the entire web</li>
+                    <li>✓ Find information, articles, websites</li>
+                    <li>✓ Clean, simple interface</li>
+                    <li>✓ No filtering - just raw search results</li>
+                </ul>
+                <a href="/general-search" class="mode-btn">Start General Search</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 Dual Search Engine. Switch between job and general search as needed.</p>
+        </footer>
+    </div>
+</body>
+</html>

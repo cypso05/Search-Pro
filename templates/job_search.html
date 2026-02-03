@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Pro - Find Your Dream Job</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: #4f46e5;
+        }
+        
+        .mode-switch {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .mode-btn {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .mode-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: -2rem;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .search-btn {
+            padding: 15px 30px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn:hover {
+            background: #4338ca;
+        }
+        
+        .search-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .job-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .filter-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        
+        .results-section {
+            margin-top: 2rem;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .results-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .refresh-btn {
+            padding: 8px 12px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .refresh-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .refresh-btn.refreshing {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .job-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.3s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .job-card:hover {
+            border-color: #4f46e5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .job-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .job-title a:hover {
+            color: #4f46e5;
+        }
+        
+        .job-company {
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .job-snippet {
+            color: #4b5563;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        
+        .job-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .meta-tag {
+            padding: 6px 12px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .meta-tag.job-type {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+        
+        .page-btn {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-btn:hover:not(:disabled) {
+            border-color: #4f46e5;
+            color: #4f46e5;
+        }
+        
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .page-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+        
+        .empty-icon {
+            font-size: 3rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+        
+        .error {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            border-left: 4px solid #dc2626;
+        }
+        
+        .job-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn:hover {
+            background: #e5e7eb;
+        }
+        
+        .action-btn.primary {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        
+        .action-btn.primary:hover {
+            background: #4338ca;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .job-filters {
+                justify-content: center;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .results-count {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <i class="fas fa-search"></i>
+                    <span>JobSearch Pro</span>
+                </a>
+                <div class="mode-switch">
+                    <a href="/job-search" class="mode-btn active">Job Search</a>
+                    <a href="/general-search" class="mode-btn">General Search</a>
+                </div>
+            </div>
+        </div>
+</header>
+    
+    <main class="container">
+        <div class="hero">
+            <h1>Find Your Dream Job Faster</h1>
+            <p>Search the latest job listings from top companies. Get hired today!</p>
+        </div>
+        
+        <div class="search-container">
+            <form id="searchForm">
+                <div class="search-box">
+                    <input type="text" 
+                           id="searchInput" 
+                           class="search-input" 
+                           placeholder="Job title, skills, or company..."
+                           required>
+                    <button type="submit" class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                        Search Jobs
+                    </button>
+                </div>
+                
+                <div class="job-filters">
+                    <button type="button" class="filter-btn active" data-type="">All Jobs</button>
+                    <button type="button" class="filter-btn" data-type="remote">Remote</button>
+                    <button type="button" class="filter-btn" data-type="full-time">Full-time</button>
+                    <button type="button" class="filter-btn" data-type="part-time">Part-time</button>
+                    <button type="button" class="filter-btn" data-type="contract">Contract</button>
+                    <button type="button" class="filter-btn" data-type="internship">Internship</button>
+                </div>
+            </form>
+            
+            <div class="results-section">
+                <div class="results-header" id="resultsHeader" style="display: none;">
+                    <h2 id="resultsTitle">Job Search Results</h2>
+                    <div class="results-count" id="resultsCount">
+                        <span>Enter a search to begin</span>
+                        <button class="refresh-btn" id="refreshBtn" title="Refresh Results" style="display: none;">
+                            <i class="fas fa-sync-alt"></i>
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p>Searching for your dream jobs...</p>
+                </div>
+                
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>No jobs found</h3>
+                    <p>Try adjusting your search terms or filters</p>
+                </div>
+                
+                <div id="errorContainer" style="display: none;"></div>
+                
+                <div class="results-grid" id="resultsGrid">
+                    <!-- Results will appear here -->
+                </div>
+                
+                <div class="pagination" id="pagination" style="display: none;">
+                    <button class="page-btn" id="prevPage" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button class="page-btn" id="nextPage" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2026 JobSearch Pro. By Cyprain Chidozie. Find your dream job today.</p>
+    </footer>
+    
+    <script>
+        // Client-side caching
+        let cachedResults = new Map();
+        let currentSearchData = null;
+        
+        // State management for Job Search
+        let currentPage = 1;
+        let totalPages = 1;
+        let currentQuery = '';
+        let currentJobType = '';
+        let isSearching = false;
+        
+        // DOM Elements
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const loading = document.getElementById('loading');
+        const emptyState = document.getElementById('emptyState');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const resultsTitle = document.getElementById('resultsTitle');
+        const resultsCount = document.getElementById('resultsCount');
+        const resultsHeader = document.getElementById('resultsHeader');
+        const pagination = document.getElementById('pagination');
+        const prevPageBtn = document.getElementById('prevPage');
+        const nextPageBtn = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const errorContainer = document.getElementById('errorContainer');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        
+        // Search form submission
+        searchForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = searchInput.value.trim();
+            
+            if (!query) {
+                showError('Please enter a job search query');
+                return;
+            }
+            
+            currentQuery = query;
+            currentPage = 1;
+            await performJobSearch(query, 1, currentJobType);
+        });
+        
+        // Filter button click
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentJobType = btn.dataset.type;
+                
+                if (currentQuery) {
+                    // Re-search with filter
+                    currentPage = 1;
+                    performJobSearch(currentQuery, 1, currentJobType);
+                }
+            });
+        });
+        
+        // Pagination buttons
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                performJobSearch(currentQuery, currentPage, currentJobType);
+            }
+        });
+        
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                performJobSearch(currentQuery, currentPage, currentJobType);
+            }
+        });
+        
+        // Refresh button handler
+        refreshBtn.addEventListener('click', () => {
+            if (currentQuery) {
+                // Clear cache for this query
+                const keysToDelete = [];
+                for (const key of cachedResults.keys()) {
+                    if (key.startsWith(`${currentQuery}:`)) {
+                        keysToDelete.push(key);
+                    }
+                }
+                keysToDelete.forEach(key => cachedResults.delete(key));
+                
+                // Force refresh
+                performJobSearch(currentQuery, currentPage, currentJobType, true);
+                
+                // Show refreshing animation
+                refreshBtn.classList.add('refreshing');
+                setTimeout(() => {
+                    refreshBtn.classList.remove('refreshing');
+                }, 1000);
+            }
+        });
+        
+        // Modified performJobSearch() function
+        async function performJobSearch(query, page, jobType = '', forceRefresh = false) {
+            if (isSearching) return;
+            
+            // Check client cache first (unless force refresh)
+            const cacheKey = `${query}:${jobType}:${page}`;
+            if (!forceRefresh && cachedResults.has(cacheKey)) {
+                console.log('Using client-side cached results');
+                const cachedData = cachedResults.get(cacheKey);
+                displayJobResults(cachedData);
+                updatePagination(cachedData);
+                showNotification('Loaded from cache', 'info');
+                return;
+            }
+            
+            isSearching = true;
+            showLoading();
+            hideEmptyState();
+            hideError();
+            
+            try {
+                const response = await fetch('/api/search/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        page: page,
+                        job_type: jobType,
+                        force_refresh: forceRefresh
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Store in client cache
+                cachedResults.set(cacheKey, data);
+                
+                // Store current search data for quick pagination
+                currentSearchData = data;
+                
+                if (data.message) {
+                    showEmptyStateWithMessage(data.message);
+                    hidePagination();
+                } else if (data.results && data.results.length > 0) {
+                    displayJobResults(data);
+                    updatePagination(data);
+                    
+                    // Pre-fetch next page if we have more results
+                    if (data.has_next && !cachedResults.has(`${query}:${jobType}:${page + 1}`)) {
+                        setTimeout(() => {
+                            prefetchNextPage(query, page + 1, jobType);
+                        }, 1000);
+                    }
+                    
+                    showNotification(`Found ${data.total || data.results.length} jobs`, 'success');
+                } else {
+                    showEmptyState();
+                    hidePagination();
+                }
+                
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                isSearching = false;
+                hideLoading();
+            }
+        }
+        
+        // Pre-fetch function
+        async function prefetchNextPage(query, nextPage, jobType = '') {
+            try {
+                const response = await fetch('/api/search/jobs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        page: nextPage,
+                        job_type: jobType,
+                        force_refresh: false
+                    })
+                });
+                
+                const data = await response.json();
+                if (!data.error) {
+                    const cacheKey = `${query}:${jobType}:${nextPage}`;
+                    cachedResults.set(cacheKey, data);
+                    console.log(`Pre-fetched page ${nextPage}`);
+                }
+            } catch (error) {
+                console.log('Prefetch failed:', error);
+            }
+        }
+        
+        // Display job results
+        function displayJobResults(data) {
+            resultsGrid.innerHTML = '';
+            resultsHeader.style.display = 'flex';
+            
+            const searchTime = data.search_time ? ` (${data.search_time.toFixed(2)}s)` : '';
+            resultsTitle.textContent = `Job Results for "${data.query}"${searchTime}`;
+            
+            const countText = data.total ? `${data.total} job listings found` : `${data.results.length} jobs found`;
+            resultsCount.innerHTML = `
+                <span>${countText}${currentJobType ? ` (${currentJobType})` : ''}</span>
+                <button class="refresh-btn" id="refreshBtn" title="Refresh Results">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            `;
+            
+            // Re-attach refresh button event listener
+            document.getElementById('refreshBtn').addEventListener('click', () => {
+                if (currentQuery) {
+                    // Clear cache for this query
+                    const keysToDelete = [];
+                    for (const key of cachedResults.keys()) {
+                        if (key.startsWith(`${currentQuery}:`)) {
+                            keysToDelete.push(key);
+                        }
+                    }
+                    keysToDelete.forEach(key => cachedResults.delete(key));
+                    
+                    // Force refresh
+                    performJobSearch(currentQuery, currentPage, currentJobType, true);
+                    
+                    // Show refreshing animation
+                    const refreshBtn = document.getElementById('refreshBtn');
+                    refreshBtn.classList.add('refreshing');
+                    setTimeout(() => {
+                        refreshBtn.classList.remove('refreshing');
+                    }, 1000);
+                }
+            });
+            
+            data.results.forEach((job, index) => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'job-card';
+                jobCard.style.animationDelay = `${index * 0.05}s`;
+                
+                // Format snippet
+                let snippet = job.snippet || '';
+                if (snippet.length > 200) {
+                    snippet = snippet.substring(0, 200) + '...';
+                }
+                
+                // Extract company from domain or source
+                let company = job.domain || job.source || 'Company not specified';
+                
+                // Format job type
+                let jobTypeText = job.job_type || job.type || 'Job Listing';
+                
+                jobCard.innerHTML = `
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">
+                                <a href="${job.url}" target="_blank" rel="noopener">
+                                    ${job.title || 'Job Opportunity'}
+                                </a>
+                            </h3>
+                            <div class="job-company">
+                                <i class="fas fa-building"></i>
+                                ${company}
+                            </div>
+                        </div>
+                        <button class="action-btn save-job-btn" title="Save Job">
+                            <i class="far fa-bookmark"></i>
+                        </button>
+                    </div>
+                    
+                    <p class="job-snippet">
+                        ${snippet}
+                    </p>
+                    
+                    <div class="job-meta">
+                        <span class="meta-tag job-type">
+                            <i class="fas fa-briefcase"></i>
+                            ${jobTypeText}
+                        </span>
+                        <span class="meta-tag">
+                            <i class="fas fa-calendar"></i>
+                            ${job.date || 'Recently posted'}
+                        </span>
+                        <span class="meta-tag">
+                            <i class="fas fa-globe"></i>
+                            ${job.domain || 'Job Site'}
+                        </span>
+                    </div>
+                    
+                    <div class="job-actions">
+                        <button class="action-btn save-job" data-job-url="${job.url}">
+                            <i class="far fa-bookmark"></i>
+                            Save
+                        </button>
+                        <button class="action-btn primary apply-job" data-job-url="${job.url}">
+                            <i class="fas fa-paper-plane"></i>
+                            Apply Now
+                        </button>
+                        <button class="action-btn view-details" data-job-url="${job.url}">
+                            <i class="fas fa-eye"></i>
+                            View Details
+                        </button>
+                    </div>
+                `;
+                
+                resultsGrid.appendChild(jobCard);
+                
+                // Add event listeners to action buttons
+                const saveBtn = jobCard.querySelector('.save-job');
+                const applyBtn = jobCard.querySelector('.apply-job');
+                const viewBtn = jobCard.querySelector('.view-details');
+                
+                saveBtn.addEventListener('click', () => saveJob(job));
+                applyBtn.addEventListener('click', () => applyToJob(job));
+                viewBtn.addEventListener('click', () => viewJobDetails(job));
+            });
+        }
+        
+        // Update pagination
+        function updatePagination(data) {
+            totalPages = data.total_pages || 1;
+            currentPage = data.page || 1;
+            
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            prevPageBtn.disabled = currentPage <= 1;
+            nextPageBtn.disabled = currentPage >= totalPages;
+            
+            if (totalPages > 1) {
+                pagination.style.display = 'flex';
+            } else {
+                pagination.style.display = 'none';
+            }
+        }
+        
+        // Save job to localStorage
+        function saveJob(job) {
+            const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+            
+            // Check if already saved
+            if (!savedJobs.some(j => j.url === job.url)) {
+                savedJobs.push({
+                    ...job,
+                    savedAt: new Date().toISOString(),
+                    jobType: currentJobType,
+                    query: currentQuery
+                });
+                localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+                showNotification('Job saved to bookmarks!', 'success');
+            } else {
+                showNotification('Job already saved', 'info');
+            }
+        }
+        
+        // Apply to job
+        function applyToJob(job) {
+            window.open(job.url, '_blank');
+            showNotification('Opening job application page...', 'info');
+        }
+        
+        // View job details
+        function viewJobDetails(job) {
+            // Open in new tab
+            window.open(job.url, '_blank');
+        }
+        
+        // Show notification with type
+        function showNotification(message, type = 'success') {
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                info: '#3b82f6',
+                warning: '#f59e0b'
+            };
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${colors[type] || colors.success};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                max-width: 300px;
+            `;
+            
+            const icon = type === 'success' ? 'fas fa-check-circle' :
+                        type === 'error' ? 'fas fa-exclamation-circle' :
+                        type === 'warning' ? 'fas fa-exclamation-triangle' :
+                        'fas fa-info-circle';
+            
+            notification.innerHTML = `
+                <i class="${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // UI helper functions
+        function showLoading() {
+            loading.style.display = 'block';
+            resultsHeader.style.display = 'none';
+            resultsGrid.style.display = 'none';
+            pagination.style.display = 'none';
+            searchBtn.disabled = true;
+            searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+        }
+        
+        function hideLoading() {
+            loading.style.display = 'none';
+            resultsGrid.style.display = 'grid';
+            searchBtn.disabled = false;
+            searchBtn.innerHTML = '<i class="fas fa-search"></i> Search Jobs';
+        }
+        
+        function showEmptyState() {
+            emptyState.style.display = 'block';
+            resultsHeader.style.display = 'none';
+            resultsGrid.style.display = 'none';
+        }
+        
+        function showEmptyStateWithMessage(message) {
+            emptyState.style.display = 'block';
+            emptyState.querySelector('p').textContent = message;
+            resultsHeader.style.display = 'none';
+            resultsGrid.style.display = 'none';
+        }
+        
+        function hideEmptyState() {
+            emptyState.style.display = 'none';
+        }
+        
+        function showError(message) {
+            errorContainer.style.display = 'block';
+            errorContainer.innerHTML = `
+                <div class="error">
+                    <strong>Error:</strong> ${message}
+                </div>
+            `;
+        }
+        
+        function hideError() {
+            errorContainer.style.display = 'none';
+            errorContainer.innerHTML = '';
+        }
+        
+        function hidePagination() {
+            pagination.style.display = 'none';
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            
+            // / to focus search
+            if (e.key === '/' && document.activeElement !== searchInput) {
+                e.preventDefault();
+                searchInput.focus();
+            }
+            
+            // Escape to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+            }
+        });
+        
+        // Add notification animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-focus search input on page load
+        window.addEventListener('load', () => {
+            // Check for saved search
+            const savedQuery = localStorage.getItem('lastJobSearch');
+            if (savedQuery) {
+                searchInput.value = savedQuery;
+                searchInput.focus();
+                searchInput.setSelectionRange(savedQuery.length, savedQuery.length);
+            } else {
+                searchInput.focus();
+            }
+        });
+        
+        // Save search on form submit
+        searchForm.addEventListener('submit', () => {
+            localStorage.setItem('lastJobSearch', searchInput.value.trim());
+        });
+        
+        // Quick search from saved searches
+        const savedSearches = JSON.parse(localStorage.getItem('savedSearches') || '[]');
+        if (savedSearches.length > 0) {
+            // Add quick search buttons for saved searches
+            const quickSearchDiv = document.createElement('div');
+            quickSearchDiv.className = 'quick-search';
+            quickSearchDiv.style.marginTop = '1rem';
+            quickSearchDiv.innerHTML = '<h4 style="width:100%; text-align:center; color:#6b7280; margin-bottom:0.5rem;">Recent Searches</h4>';
+            
+            savedSearches.slice(0, 3).forEach(search => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'quick-btn';
+                btn.textContent = search.query;
+                btn.style.cssText = 'padding: 6px 12px; font-size: 0.9rem;';
+                btn.addEventListener('click', () => {
+                    searchInput.value = search.query;
+                    currentQuery = search.query;
+                    currentPage = 1;
+                    performJobSearch(search.query, 1, search.jobType || '');
+                });
+                quickSearchDiv.appendChild(btn);
+            });
+            
+            searchForm.appendChild(quickSearchDiv);
+        }
+        
+        // Save successful searches
+        function saveSearch(query, jobType) {
+            const savedSearches = JSON.parse(localStorage.getItem('savedSearches') || '[]');
+            
+            // Remove if already exists
+            const existingIndex = savedSearches.findIndex(s => s.query === query && s.jobType === jobType);
+            if (existingIndex > -1) {
+                savedSearches.splice(existingIndex, 1);
+            }
+            
+            // Add to beginning
+            savedSearches.unshift({
+                query: query,
+                jobType: jobType,
+                searchedAt: new Date().toISOString()
+            });
+            
+            // Keep only last 5 searches
+            if (savedSearches.length > 5) {
+                savedSearches.pop();
+            }
+            
+            localStorage.setItem('savedSearches', JSON.stringify(savedSearches));
+        }
+        
+        // Call saveSearch when a successful search is performed
+        // Add this in the performJobSearch function after successful search
+    </script>
+</body>
+</html>
